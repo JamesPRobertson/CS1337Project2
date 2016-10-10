@@ -17,22 +17,14 @@
   <ItemGroup>
     <Text Include="ReadMe.txt" />
     <Text Include="answers.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="CS1337Project2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CS1337Project2.cpp">
+    <ClCompile Include="PointerLinkedList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
