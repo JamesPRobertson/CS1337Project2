@@ -143,11 +143,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="answers.txt" />
+    <Text Include="contestants.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CS1337Project2.cpp" />
-    <ClCompile Include="PointerLinkedList.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

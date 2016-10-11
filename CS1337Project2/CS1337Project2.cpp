@@ -1,47 +1,89 @@
+//James Robertson
+//jpr160030
+
 #include <iostream>
 #include <fstream>
+#include <istream>
+#include <ostream>
+#include <string>
 
 using namespace std;
 
-int main(){
+struct Contestant {
+	string id;
+	float score;
 	char* answerStart;
+}
+Contestant_default = { 0,0,new char};
+typedef struct Contestant_default;
+
+int main() {
+	char* answerStart;
+	Contestant* contestants;
+
 	ifstream inFile;
+	ifstream contestantsFile;
+	ofstream outFile;
+
+	int answerCount = 0;
+	int contestantCount = 0;
 
 	answerStart = new char;
+
+	inFile.open("answers.txt");
+	contestantsFile.open("contestants.txt");
+	outFile.open("report.txt");
 	
-	inFile.open("../answers.txt", ios::in);
-
-	//Failsafe, if we can't read the file don't even run the program
-	if (inFile) {
+	if (inFile.fail() || contestantsFile.fail()) {
 		cout << "\nFilestream read error\n" << endl;
-
-		system("pause");
 		return 0;
 	}
 
-	for (int i = 0; i < 5; i++) {
-		cin >> *(answerStart + i);
-		cout << "Out: " << *(answerStart + i) << endl;
+	for (int i = 0; !inFile.eof(); i++) {
+		inFile >> *(answerStart + i);
+		answerCount++;
 	}
 
-	for (int i = 0; i < 5; i++) {
-		cout << *(answerStart + i) << " ";
-	}
-	
-	//assuming the file goes: a b c d e f. We can use ifstream.ignore to skip whitespace
-	/*
-	for (int i = 0; !inFile.eofbit; i++) {
-		*(answerStart += i) = inFile.get();
-		inFile.ignore();
-		cout << *(answerStart + i) << endl;
-	}
-	
+	for (int i = 0; !contestantsFile.eof(); i++) {
+		Contestant foo;
+		*(contestants + i) = foo;
+		contestantsFile >> foo.id;
 
-	for (int i = 0; i < 10; i++) {
-		cout << endl << *(answerStart + i);
+		contestantCount++;
+
+		foo.answerStart = new char;
+
+		for (int x = 0; x < answerCount; x++) {
+			contestantsFile >> *(foo.answerStart + x);
+		}
 	}
-	*/
-	system("pause");
-    return 0;
+
+	for (int i = 0; i < contestantCount; i++) {
+		int correct = 0;
+
+		Contestant foo = *(contestants + i);
+
+		for (int x = 0; x < answerCount; x++) {
+			if (*(answerStart + x) == *(foo.answerStart + x)) {
+				correct++;
+			}
+		}
+
+		foo.score = (correct / answerCount) * 100;
+	}
+
+	for (int i = 0; i < contestantCount; i++) {
+		Contestant foo = *(contestants + i);
+		outFile << foo.id << "\n";
+		outFile << foo.score << "\n";
+
+		for (int x = 0; x < answerCount; x++) {
+			if (*(answerStart + x) != *(foo.answerStart + x)) {
+				outFile << x + 1 << " " << *(foo.answerStart + x) << " " << *(answerStart + x) << "\n";
+			}	
+		}
+		outFile << "\n";
+	}
+
+	return 0;
 }
-	

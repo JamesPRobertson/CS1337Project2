@@ -19,12 +19,12 @@
     <Text Include="answers.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="contestants.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CS1337Project2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PointerLinkedList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
