@@ -6,6 +6,7 @@
 #include <istream>
 #include <ostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -13,20 +14,17 @@ struct Contestant {
 	string id;
 	float score;
 	char* answerStart;
-}
-Contestant_default = { 0,0,new char};
-typedef struct Contestant_default;
+};
 
 int main() {
 	char* answerStart;
-	Contestant* contestants;
+	vector<Contestant> contestants = vector<Contestant>();
 
 	ifstream inFile;
 	ifstream contestantsFile;
 	ofstream outFile;
 
 	int answerCount = 0;
-	int contestantCount = 0;
 
 	answerStart = new char;
 
@@ -46,22 +44,22 @@ int main() {
 
 	for (int i = 0; !contestantsFile.eof(); i++) {
 		Contestant foo;
-		*(contestants + i) = foo;
+
 		contestantsFile >> foo.id;
-
-		contestantCount++;
-
 		foo.answerStart = new char;
 
 		for (int x = 0; x < answerCount; x++) {
 			contestantsFile >> *(foo.answerStart + x);
 		}
+
+		contestants.push_back(foo);
+
 	}
 
-	for (int i = 0; i < contestantCount; i++) {
+	for (int i = 0; i < contestants.size(); i++) {
 		int correct = 0;
 
-		Contestant foo = *(contestants + i);
+		Contestant foo = contestants.at(i);
 
 		for (int x = 0; x < answerCount; x++) {
 			if (*(answerStart + x) == *(foo.answerStart + x)) {
@@ -69,17 +67,17 @@ int main() {
 			}
 		}
 
-		foo.score = (correct / answerCount) * 100;
+		foo.score = ((float)correct / (float)answerCount) * 100;
 	}
 
-	for (int i = 0; i < contestantCount; i++) {
-		Contestant foo = *(contestants + i);
+	for (int i = 0; i < contestants.size(); i++) {
+		Contestant foo = contestants.at(i);
 		outFile << foo.id << "\n";
 		outFile << foo.score << "\n";
 
 		for (int x = 0; x < answerCount; x++) {
 			if (*(answerStart + x) != *(foo.answerStart + x)) {
-				outFile << x + 1 << " " << *(foo.answerStart + x) << " " << *(answerStart + x) << "\n";
+				outFile << x + 1 << ") " << *(foo.answerStart + x) << " " << *(answerStart + x) << "\n";
 			}	
 		}
 		outFile << "\n";
